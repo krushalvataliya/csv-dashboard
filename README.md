@@ -43,11 +43,11 @@ Visit the **Download CSV** section to view and download previously uploaded CSV 
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/krushalvataliya/kv-csv-dashboard.git
+    git clone https://github.com/krushalvataliya/csv-dashboard.git
     ```
 2. Navigate to the project directory:
     ```sh
-    cd kv-csv-dashboard
+    cd csv-dashboard
     ```
 3. Set up your web server to serve the project files.
 
