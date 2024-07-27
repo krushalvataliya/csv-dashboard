@@ -1,0 +1,53 @@
+<?php
+$products = $this->getProduct();
+?>
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="Model/Skin/css/style.css">
+		<title></title>
+	</head>
+	<body>
+		<?php require_once "View/html/header.phtml" ?>
+		 <div><div><h3>PRODUCT</h3></div><div style="margin-left:640px;margin-top: 15px;">
+			<a  class="btn btn-primary" href="<?php echo $this->getUrl('add'); ?>">
+		add product
+	</a></div></div>
+	<br>
+	<table class="table table-bordered">
+		<tr>
+			<th> PRODUCT_ID</th>
+			<th> SKU</th>
+			<th> COST</th>
+			<th> PRICE</th>
+			<th> QUANTITY</th>
+			<th> DESCRIPTION</th>
+			<th> STATUS</th>
+			<th> COLOR</th>
+			<th> MATERIAL</th>
+			<th> </th>
+			<th> </th>
+			<th> </th>
+		</tr>
+		
+		<?php foreach ($products as $product): ?>
+		<tr>
+			<td><?php echo $product['product_id'] ?></td>
+			<td><?php echo $product['sku'] ?></td>
+			<td><?php echo $product['cost'] ?></td>
+			<td><?php echo $product['price'] ?></td>
+			<td><?php echo $product['quantity'] ?></td>
+			<td><?php echo $product['description'] ?></td>
+			<td><?php echo $product['status'] ?></td>
+			<td><?php echo $product['color'] ?></td>
+			<td><?php echo $product['material'] ?></td>
+			<td><a href="<?php echo $this->getUrl('grid', 'product_media', ['product_id' =>$product['product_id']]); ?>">images</a></td>
+			<td><a href="<?php echo $this->getUrl('edit', 'product', ['product_id' => $product['product_id']]); ?>">edit</a></td>
+			<td><a href="<?php echo $this->getUrl('delete','product',['product_id' => $product['product_id']]); ?>">delete<a></td>
+		</tr>
+		<?php endforeach; ?>
+	</table>
+	<?php require_once "View/html/footer.phtml" ?>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSV File Comparison</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+        h2 {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: normal;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #suggestionList1, #suggestionList2 {
+            text-align: left;
+            margin-top: -15px;
+            position: absolute;
+            width: calc(100% - 40px);
+            max-height: 150px;
+            overflow-y: auto;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        #suggestionList1 li, #suggestionList2 li {
+            cursor: pointer;
+            padding: 5px;
+            background-color: #f0f0f0;
+            border-bottom: 1px solid #ddd;
+        }
+        #suggestionList1 li:hover, #suggestionList2 li:hover {
+            background-color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CSV File Comparison</h1>
+        <form action="<?php echo $this->getUrl('compareCsv'); ?>" method="post">
+            <label for="csvFile1">CSV File 1 Name:</label>
+            <input type="text" id="csvFile1" name="csvFile1" required autocomplete="off">
+            <ul id="suggestionList1"></ul>
+
+            <label for="csvFile2">CSV File 2 Name:</label>
+            <input type="text" id="csvFile2" name="csvFile2" required autocomplete="off">
+            <ul id="suggestionList2"></ul>
+
+            <button type="submit">Compare CSV Files</button>
+        </form>
+    </div>
+
+    <script>
+        let allCsvFiles = [];
+
+        function fetchSuggestions(inputElement, suggestionList, allCsvFiles) {
+            const userInput = inputElement.value.trim().toLowerCase();
+            suggestionList.innerHTML = '';
+
+            if (userInput.length === 0) {
+                return;
+            }
+
+            const filteredFiles = allCsvFiles.filter(filename =>
+                filename.toLowerCase().includes(userInput)
+            );
+
+            filteredFiles.forEach(filename => {
+                const li = document.createElement('li');
+                li.textContent = filename;
+                li.addEventListener('click', () => {
+                    inputElement.value = filename;
+                    suggestionList.innerHTML = '';
+                });
+                suggestionList.appendChild(li);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const url = '<?php echo $this->getUrl('fetchCsvSuggestions'); ?>';
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    allCsvFiles = data;
+                })
+                .catch(error => {
+                    console.error('Error fetching CSV files:', error);
+                });
+
+            const csvFile1Input = document.getElementById('csvFile1');
+            const suggestionList1 = document.getElementById('suggestionList1');
+            csvFile1Input.addEventListener('input', () => {
+                fetchSuggestions(csvFile1Input, suggestionList1, allCsvFiles);
+            });
+
+            const csvFile2Input = document.getElementById('csvFile2');
+            const suggestionList2 = document.getElementById('suggestionList2');
+            csvFile2Input.addEventListener('input', () => {
+                fetchSuggestions(csvFile2Input, suggestionList2, allCsvFiles);
+            });
+        });
+    </script>
+</body>
+</html>

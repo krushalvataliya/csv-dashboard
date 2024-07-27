@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: #fff;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        textarea {
+            height: 100px;
+        }
+        button {
+            background-color: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Custom SQL Query CSV Export</h1>
+        <form action="<?php echo $this->getUrl('export') ?>" method="post">
+            <label for="database">Choose Database:</label>
+            <select id="database" name="database" required>
+                <?php foreach ($this->getAvailableDbs() as $key => $value): ?>
+                    <option value="<?php echo $key ?>"><?php echo $value ?></option>
+                <?php endforeach ?>
+            </select><br>
+
+            <label for="sqlQuery">Enter SQL Query:</label>
+            <textarea id="sqlQuery" name="sqlQuery" required></textarea><br>
+
+            <label for="fileName">Enter File Name:</label>
+            <input type="text" id="fileName" name="fileName" required><br><br>
+
+            <button type="submit">Export</button>
+        </form>
+    </div>
+</body>
+</html>

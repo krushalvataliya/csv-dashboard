@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KV CSV Export</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ORDER CSV Export</h1>
+        <h2>by Krushal Vataliya</h2>
+        <form action="export.php" method="post">
+            <label for="orderId">Order ID:</label>
+            <input type="text" id="orderId" name="orderId" required><br>
+            
+            <label for="queryType">Query Type:</label>
+            <select id="queryType" name="queryType" required>
+                <option value="order_placed">Order Placed</option>
+                <option value="new_order_to_mfr">New Order to MFR</option>
+                <option value="stock_add">Stock Add</option>
+                <option value="stock_re_add">Stock Re-add</option>
+                <option value="stock_with_bo">Stock with BO</option>
+            </select><br>
+            
+            <button type="submit">Export</button>
+        </form>
+    </div>
+</body>
+</html>

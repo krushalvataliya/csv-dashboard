@@ -1,0 +1,73 @@
+<?php
+$product = $this->getProduct();
+?>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="Model/Skin/css/style.css">
+    <title>product</title>
+  </head>
+  <body>
+    <?php require_once "View/html/header.phtml" ?>
+
+      <table>
+        <tr>
+        <td><h3>Edit Product<h3></td>
+        <td><a class="btn btn-primary mx-2" href="<?php echo $this->getUrl('grid',null,null,true); ?>">cancel</a> </td>
+        <form action="<?php echo $this->getUrl('update'); ?>" method="POST">
+        <td><button class="btn btn-primary"> save</button></td>
+      </tr>
+      </table>
+	<table class="table table-bordered">
+
+      <tr hidden>
+        <th> PRODUCT_ID</th>
+        <td><input type="number" name="product[product_id]"  value="<?php echo $product['product_id']?>"></td>
+      </tr>
+      <tr>
+        <th> SKU</th>
+        <td><input type="text" name="product[sku]" value="<?php echo $product['sku']?>"></td>
+      </tr>
+      <tr>
+        <th> COST</th>
+        <td><input type="number" name="product[cost]" value="<?php echo $product['cost']?>"></td>
+      </tr>
+      <tr>
+        <th> PRICE</th>
+        <td><input type="number" name="product[price]" value="<?php echo $product['price']?>"></td>
+      </tr>
+      <tr>
+        <th> QUANTITY</th>
+        <td><input type="number" name="product[quantity]" value="<?php echo $product['quantity']?>"></td>
+      </tr>
+      <tr>
+        <th> DESCRIPTION</th>
+        <td><input type="text" name="product[description]" value="<?php echo $product['description']?>"></td>
+      </tr>
+      <tr>
+        <th> STATUS</th>
+        <td><select name="product[status]"   >
+          <option value="available"name="Available">available</option>
+          <option value="unavailable"name="unavailable">unavailable</option>
+          
+        </select></td>
+      </tr>
+      <tr>
+        <th> COLOR</th>
+        <td><select name="product[color]"   value="<?php echo $color?>" >
+          <option value="red"name="Available">red</option>
+          <option value="green"name="unavailable">green</option>
+          <option value="blue"name="unavailable">blue</option>
+          
+        </select></td>
+      </tr>
+      <tr>
+        <th> MATERIAL</th>
+        <td><input type="text" name="product[material]" value="<?php echo $product['material']?>"></td>
+      </tr>
+    </form>
+    
+  </table>
+  <?php require_once "View/html/footer.phtml" ?>
+</body>
+</html>

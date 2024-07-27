@@ -1,0 +1,144 @@
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1, h2 {
+            margin: 20px 0;
+            color: #555;
+        }
+        .dashboard {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 200px;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card a {
+            text-decoration: none;
+            color: inherit;
+        }
+        .card i {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: #f39c12;
+        }
+        .card h3 {
+            margin: 10px 0;
+        }
+        .card p {
+            color: #777;
+        }
+        .upload-section, .download-section {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .csv-grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .csv-grid th, .csv-grid td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .csv-grid th {
+            background-color: #f39c12;
+            color: #fff;
+        }
+        .csv-grid td {
+            text-align: center;
+        }
+        .csv-grid button {
+            padding: 5px 10px;
+            border: none;
+            background-color: #3498db;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        .csv-grid button.delete {
+            background-color: #e74c3c;
+        }
+    </style>
+<div class="download-section">
+            <h2>Available CSV Files</h2>
+            <table class="csv-grid">
+                <thead>
+                    <tr>
+                        <th>Filename</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="csv-files-list">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('<?php echo $this->getUrl('FetchCsv') ?>')
+                .then(response => response.json())
+                .then(data => {
+                    const csvFilesList = document.getElementById('csv-files-list');
+                    csvFilesList.innerHTML = '';
+
+                    if (data.length === 0) {
+                        csvFilesList.innerHTML = '<tr><td colspan="2">No CSV files found.</td></tr>';
+                    } else {
+                        data.forEach(file => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${file}</td>
+                                <td>
+                                    <button onclick="downloadCSV('${file}')">Download</button>
+                                    <button class="delete" onclick="deleteCSV('${file}')">Delete</button>
+                                </td>
+                            `;
+                            csvFilesList.appendChild(row);
+                        });
+                    }
+                })
+                .catch(error => console.error('Error fetching CSV files:', error));
+        });
+
+        function downloadCSV(filename) {
+            window.location.href = '<?php echo $this->getUrl('download', null, [], true) ?>&file=' + filename;
+        }
+
+        function deleteCSV(filename) {
+            if (confirm('Are you sure you want to delete this file?')) {
+                fetch('<?php echo $this->getUrl('delete', null, [], true) ?>&file=' + filename)
+                    .then(response => response.text())
+                    .then(data => {
+                        alert(data);
+                        window.location.reload();
+                    })
+                    .catch(error => console.error('Error deleting CSV file:', error));
+            }
+        }
+    </script>
