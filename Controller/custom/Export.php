@@ -1,6 +1,5 @@
 <?php 
 require_once 'Controller/Core/Action.php';
-require_once 'Model/Export.php';
 
 class Controller_Custom_Export extends Controller_Core_Action
 {
@@ -11,42 +10,42 @@ class Controller_Custom_Export extends Controller_Core_Action
 
 	public function exportAction()
 	{
-		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		    $db = trim($_POST['database']);
-		    $sqlQuery = trim($_POST['sqlQuery']);
-		    $fileName = trim($_POST['fileName']);
+		try {
+			$request = $this->getRequest();
+			if (!$request->isPost()) {
+				throw new Exception("invalid Request.", 1);
+			}
+		    $db = $request->getPost('database');
+		    $sqlQuery = trim($request->getPost('sqlQuery'));
+		    $fileName = trim($request->getPost('fileName'));
 
 		    if (empty($sqlQuery)) {
-		        die('SQL Query is required.');
+				throw new Exception('SQL Query is required.', 1);
 		    }
-
 		    $timestamp = time();
 		    if(file_exists($fileName)){
-		        $fileName = $fileName."new";
+		        $fileName = $fileName.$timestamp;
 		    }
 		    $csvFile = "{$fileName}.csv";
-		    try {
-		    	echo $sqlQuery;
-		        $results = $this->getAdapter()->setdatabaseName($db)->fetchAll($sqlQuery);
+	        $results = $this->getAdapter()->setdatabaseName($db)->fetchAll($sqlQuery);
 
-		        if (empty($results)) {
-		            die('No data found for the provided query.');
-		        }
+	        if (empty($results)) {
+				throw new Exception('No data found for the provided query.', 1);
+	        }
 
-		        $file = fopen($csvFile, 'w');
+	        $file = fopen($csvFile, 'w');
+	        $headerRow = array_keys($results[0]);
+	        fputcsv($file, $headerRow);
 
-		        $headerRow = array_keys($results[0]);
-		        fputcsv($file, $headerRow);
-
-		        foreach ($results as $row) {
-		            fputcsv($file, $row);
-		        }
-		        fclose($file);
-		        echo "CSV export completed. <a href='{$csvFile}' download>Download CSV</a>";
-		    } catch (Exception $e) {
-		        die("Error: " . $e->getMessage());
-		    }
+	        foreach ($results as $row) {
+	            fputcsv($file, $row);
+	        }
+	        fclose($file);
+			$this->getMessage()->addMessage("CSV export completed. <a href='{$csvFile}' download>Download CSV</a>",  Model_Core_Message::SUCCESS);
+		} catch (Exception $e) {
+			$this->getMessage()->addMessage('Error: '.$e->getMessage(),  Model_Core_Message::FAILURE);
 		}
+		 return $this->redirect('index');
 	}
 
 	public static function getExcludedDbs()
