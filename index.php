@@ -11,6 +11,11 @@ class Kv
 		$front = new Controller_Core_Front();
 		$front->init();
 	}
+
+	public static function getCsvDir()
+	{
+		return '.'. DS .'var'. DS .'uploads'. DS;
+	}
 }
 
 Kv::init();
