@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>Custom SQL Query CSV Export</title>
+    <link rel="stylesheet" href="Skin/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -9,9 +12,9 @@
             margin: 0;
             padding: 0;
         }
-        .container {
+        .container1 {
             background-color: #fff;
-            max-width: 800px;
+            max-width: 500px;
             margin: 50px auto;
             padding: 20px 40px;
             border-radius: 10px;
@@ -20,6 +23,7 @@
         h1 {
             color: #333;
             margin-bottom: 20px;
+            text-align: center;
         }
         label {
             display: block;
@@ -37,6 +41,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+            box-sizing: border-box;
         }
         textarea {
             height: 100px;
@@ -49,6 +54,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-color 0.3s;
         }
         button:hover {
             background-color: #218838;
@@ -56,8 +62,8 @@
     </style>
 </head>
 <body>
-
-    <div class="container">
+    <?php require_once "View/html/header.phtml"; ?>
+    <div class="container1">
         <h1>Custom SQL Query CSV Export</h1>
         <form action="<?php echo $this->getUrl('export') ?>" method="post">
             <label for="database">Choose Database:</label>
@@ -76,5 +82,6 @@
             <button type="submit">Export</button>
         </form>
     </div>
+    <?php require_once "View/html/footer.phtml"; ?>
 </body>
 </html>

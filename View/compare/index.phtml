@@ -1,64 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="Skin/css/style.css">
     <meta charset="UTF-8">
     <title>CSV File Comparison</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
         }
-        .container {
+        .container-custom {
             background-color: #fff;
+            max-width: 800px;
+            margin: 50px auto;
             padding: 20px 40px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            position: relative;
         }
         h1 {
             color: #333;
-            margin-bottom: 5px;
-        }
-        h2 {
-            color: #666;
             margin-bottom: 20px;
-            font-size: 16px;
-            font-weight: normal;
+            text-align: center;
         }
         label {
-            display: block;
             margin-top: 10px;
-            margin-bottom: 5px;
             color: #555;
             font-weight: bold;
         }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #suggestionList1, #suggestionList2 {
+        .suggestion-list {
             text-align: left;
             margin-top: -15px;
             position: absolute;
@@ -70,32 +43,38 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
-        #suggestionList1 li, #suggestionList2 li {
+        .suggestion-list li {
             cursor: pointer;
             padding: 5px;
             background-color: #f0f0f0;
             border-bottom: 1px solid #ddd;
         }
-        #suggestionList1 li:hover, #suggestionList2 li:hover {
+        .suggestion-list li:hover {
             background-color: #e0e0e0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <?php require_once "View/html/header.phtml"; ?>
+    <div class="container1 container-custom">
         <h1>CSV File Comparison</h1>
         <form action="<?php echo $this->getUrl('compareCsv'); ?>" method="post">
-            <label for="csvFile1">CSV File 1 Name:</label>
-            <input type="text" id="csvFile1" name="csvFile1" required autocomplete="off">
-            <ul id="suggestionList1"></ul>
+            <div class="mb-3">
+                <label for="csvFile1" class="form-label">CSV File 1 Name:</label>
+                <input type="text" id="csvFile1" name="csvFile1" class="form-control" required autocomplete="off">
+                <ul id="suggestionList1" class="suggestion-list"></ul>
+            </div>
 
-            <label for="csvFile2">CSV File 2 Name:</label>
-            <input type="text" id="csvFile2" name="csvFile2" required autocomplete="off">
-            <ul id="suggestionList2"></ul>
+            <div class="mb-3">
+                <label for="csvFile2" class="form-label">CSV File 2 Name:</label>
+                <input type="text" id="csvFile2" name="csvFile2" class="form-control" required autocomplete="off">
+                <ul id="suggestionList2" class="suggestion-list"></ul>
+            </div>
 
-            <button type="submit">Compare CSV Files</button>
+            <button type="submit" class="btn btn-primary">Compare CSV Files</button>
         </form>
     </div>
+    <?php require_once "View/html/footer.phtml"; ?>
 
     <script>
         let allCsvFiles = [];

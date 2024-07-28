@@ -12,6 +12,6 @@ if($messages)
 		echo "</P>";
 	}
 }
-// $messageModel->clearMessages();
+$messageModel->clearMessages();
 
 ?>
