@@ -1,8 +1,6 @@
 <?php 
 require_once "Model/Core/Request.php";
-/**
- * 
- */
+
 class Model_Core_Url
 {
 	
@@ -29,7 +27,6 @@ class Model_Core_Url
 			$final = array_merge($final,$perameters);
 		}
 		$url = explode('?', $this->getCurrentUrl());
-		// die ;
 		return $url[0].'?'.http_build_query($final);
 	}
 }
