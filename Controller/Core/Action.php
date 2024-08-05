@@ -4,6 +4,7 @@ require_once 'Model/Core/Request.php';
 require_once 'Model/Core/Url.php';
 require_once 'Model/Core/Session.php';
 require_once 'Model/Core/Message.php';
+require_once 'Model/Core/Response.php';
 
 class Controller_Core_Action
 {
@@ -12,6 +13,7 @@ class Controller_Core_Action
 	public $modelUrl = null;
 	public $session = null;
 	public $message = null;
+	protected $_response = null;
 
 	public function getRequest()
 	{
@@ -122,6 +124,24 @@ class Controller_Core_Action
     public function setMessage($message)
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getResponse()
+    {
+        if($this->_response)
+		{
+			return $this->_response;
+		}
+		$response = new Model_Core_Response();
+		$this->setMessage($response);
+		return $response;
+    }
+
+    public function setResponse($_response)
+    {
+        $this->_response = $_response;
 
         return $this;
     }

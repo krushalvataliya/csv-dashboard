@@ -27,8 +27,7 @@ class Controller_Compare extends Controller_Core_Action
         foreach ($files as $file) {
             $matches[] = $file;
         }
-        header('Content-Type: application/json');
-        echo json_encode($matches);
+        $this->getResponse()->jsonResponse($matches);
     }
 
     public function compareCsvAction()

@@ -14,7 +14,7 @@ class Controller_Download extends Controller_Core_Action
 		$files = array_filter(scandir($csvDir), function($file) use ($csvDir) {
 		    return is_file($csvDir . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'csv';
 		});
-		echo json_encode(array_values($files));
+		$this->getResponse()->jsonResponse(array_values($files));
 	}
 
 	public function downloadAction()
